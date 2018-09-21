@@ -19,6 +19,7 @@ body {
   padding-left: 15px;
   text-align: left;
   font-family: "Signika", sans-serif;
+  width: 20em
 }
 h1 {
   color: #5D6F62;
@@ -38,7 +39,6 @@ h4 {
   font-weight: 60;
   color: #5D6F62;
   line-height: 1.45;
-  width: 25em;
 }
 h5 {
 font-size: 15px;
