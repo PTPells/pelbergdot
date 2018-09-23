@@ -4,6 +4,14 @@
 @import "{{ site.theme }}";
 
 
+hr {
+  background: #5D6F62;
+  height: .5px;
+  opacity: .3;
+}
+div.details {
+  text-indent:5px
+}
 div.a {
   text-indent:5px
 }
