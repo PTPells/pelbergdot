@@ -4,6 +4,16 @@
 @import "{{ site.theme }}";
 
 
+a:hover {
+    color: #C39E95;
+}
+
+a:link {
+    color: #A5C38F;
+}
+a:visited {
+    color: #A8ACB4;
+}
 hr {
   background: #5D6F62;
   height: .5px;
