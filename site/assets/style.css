@@ -81,3 +81,18 @@ div.info-box {
 div.title {
  line-height: .5px;
 }
+
+author {
+  color:#5D6F62;
+  font-style:bold
+}
+work {
+  color:#A8ACB4;
+  font-weight:100;
+  font-style:italic;
+}
+quote {
+  line-heigh:1.5;
+  color:#6E7470;
+  font-weight:100;
+}
