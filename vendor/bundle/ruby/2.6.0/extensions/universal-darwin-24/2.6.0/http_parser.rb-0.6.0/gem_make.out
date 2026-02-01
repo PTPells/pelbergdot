@@ -1,0 +1,14 @@
+current directory: /Users/pp/Library/Mobile Documents/com~apple~CloudDocs/Projects/pelbergdot/vendor/bundle/ruby/2.6.0/gems/http_parser.rb-0.6.0/ext/ruby_http_parser
+/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/bin/ruby -I /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0 -r ./siteconf20260201-97194-1xau7ax.rb extconf.rb --with-cflags\=-Wno-error\=implicit-function-declaration
+creating Makefile
+
+current directory: /Users/pp/Library/Mobile Documents/com~apple~CloudDocs/Projects/pelbergdot/vendor/bundle/ruby/2.6.0/gems/http_parser.rb-0.6.0/ext/ruby_http_parser
+make "DESTDIR=" clean
+
+current directory: /Users/pp/Library/Mobile Documents/com~apple~CloudDocs/Projects/pelbergdot/vendor/bundle/ruby/2.6.0/gems/http_parser.rb-0.6.0/ext/ruby_http_parser
+make "DESTDIR="
+compiling ruby_http_parser.c
+clang: error: no such file or directory: 'Documents/com~apple~CloudDocs/Projects/pelbergdot/vendor/bundle/ruby/2.6.0/gems/http_parser.rb-0.6.0/ext/ruby_http_parser'
+make: *** [ruby_http_parser.o] Error 1
+
+make failed, exit code 2
