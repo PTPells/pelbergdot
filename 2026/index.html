@@ -17,13 +17,13 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Times+New+Roman:ital,wght@0,400;0,700;1,400&display=swap"
         rel="stylesheet">
 
     <style>
         body {
             background-color: #011C6B;
-            color: #ffffff;
+            color: #D9D9D9;
             font-family: 'Libre Baskerville', serif;
             margin: 0;
             display: flex;
@@ -31,11 +31,50 @@
             align-items: center;
             height: 100vh;
         }
+
+        h1,
+        h2 {
+            margin-bottom: .5rem;
+            line-height: 1.25;
+        }
+
+        .limiter {
+            max-width: 640px;
+            padding-left: 20px;
+            padding-right: 20px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .pad2y {
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+
+        p {
+            margin: 1rem 0;
+            font-size: 1rem;
+        }
     </style>
 </head>
 
 <body>
-    <h1>2026</h1>
+    <div class="pad2y limiter">
+        <!--<h1>2026</h1>-->
+
+        <div>
+            <p>
+                * Item 1
+            </p>
+        </div>
+        <div>
+            <p>
+                * Item 2
+            </p>
+        </div>
+    </div>
 </body>
 
 </html>
