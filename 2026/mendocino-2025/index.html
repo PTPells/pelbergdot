@@ -27,7 +27,8 @@
             background-color: var(--bg-color);
             transition: background-color 1s, color 1s;
             font-family: Cormorant Garamond;
-            font-size: 1.25em;
+            font-size: 1.3em;
+            line-height: 1.5em;
         }
 
         h1,
@@ -38,9 +39,19 @@
         }
 
         small {
-            font-size: 0.8em;
-            opacity: 0.5;
-            text-align: left;
+            font-size: 0.6em;
+            font-family: system-ui;
+            font-weight: 300;
+            opacity: 0.6;
+            text-transform: lowercase;
+        }
+
+        sup {
+            font-size: 0.5em;
+            font-family: system-ui;
+            font-weight: 300;
+            opacity: 0.75;
+            margin-left: 1px;
         }
 
         a {
@@ -59,20 +70,8 @@
 
         img {
             width: auto;
-            height: auto;
-            max-width: 90vw;
             max-height: 75dvh;
             border-radius: 15px;
-            object-fit: contain;
-            filter: saturate(0.7) sepia(0.15) contrast(0.9) brightness(1.05);
-        }
-
-        figure {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            width: fit-content;
         }
 
         .image-row {
@@ -82,11 +81,6 @@
 
         p {
             max-width: 70vw;
-            font-size: 1.4em;
-        }
-
-        p small {
-            font-size: 0.57em;
         }
 
         h1 {
@@ -211,6 +205,13 @@
             body {
                 font-weight: 500 !important;
             }
+
+            small,
+            sup {
+                font-weight: 400 !important;
+                opacity: 0.5;
+            }
+
         }
     </style>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant Garamond:300,400,500,400italic">
@@ -459,17 +460,9 @@
                     <figcaption><small> 11:50am • saturday, may 3, 2025</small></figcaption>
                 </figure>
             </section>
-            <!-- <section tabindex="1" data-bg-color="#021E6B" data-text-color="white">
-                <p>
-                    <small>12:04 pm &bull; saturday, may 3, 2025</small>
-                    <br>
-                    <br>
-                    ping practice brings together people ready to invent and reinvent
-                    <br>
-                    <br>
-                    <small>Ping 9,319 of 10,800</small>
-                </p>
-            </section> -->
+            <section tabindex="1" data-bg-color="white">
+                <img src="stamp.svg" width="135px" height="135px">
+            </section>
 
 
 
@@ -562,8 +555,6 @@
                 track.style.cursor = 'grab';
                 track.style.removeProperty('user-select');
             };
-
-            track.addEventListener('mousedown', mouseDownHandler);
 
             const update = () => {
 
