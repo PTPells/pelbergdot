@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mendocino</title>
+    <style>
+        @charset "UTF-8";
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box
+        }
+
+        :root {
+            --bg-color: white;
+            --text-color: black;
+            --scroll-pct: 0;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: background-color 1s, color 1s;
+            font-family: Cormorant Garamond;
+            font-size: 1.3em;
+            line-height: 1.5em;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-style: italic;
+        }
+
+        small {
+            font-size: 0.6em;
+            font-family: system-ui;
+            font-weight: 300;
+            opacity: 0.6;
+            text-transform: lowercase;
+        }
+
+        sup {
+            font-size: 0.5em;
+            font-family: system-ui;
+            font-weight: 300;
+            opacity: 0.75;
+            margin-left: 1px;
+        }
+
+        a {
+            color: var(--text-color);
+            text-decoration: none !important;
+            -o-transition: .5s;
+            -ms-transition: .5s;
+            -moz-transition: .5s;
+            -webkit-transition: .5s;
+            transition: .5s;
+        }
+
+        a:hover {
+            opacity: 0.5;
+        }
+
+        img {
+            width: auto;
+            max-height: 75dvh;
+            border-radius: 15px;
+        }
+
+        .image-row {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        p {
+            max-width: 70vw;
+        }
+
+        h1 {
+            max-width: 70vw;
+        }
+
+        /** Content **/
+
+        .h-track {
+            width: 100%;
+            height: 100dvh;
+            overflow-x: auto;
+            position: relative;
+            overflow-y: hidden;
+
+            .h-content-container {
+                position: relative;
+                max-width: unset;
+                width: fit-content;
+                height: 98dvh;
+                display: flex;
+                align-items: center;
+                transition: transform .2s linear;
+
+                >* {
+                    display: grid;
+                    place-items: center;
+                    min-width: 100vw;
+                }
+
+            }
+        }
+
+        /** Audio Player **/
+
+        audio {
+            width: 110px;
+            animation: audioWidth 0.1s forwards;
+        }
+
+        audio::-webkit-media-controls-panel {
+            justify-content: center;
+        }
+
+        audio::-webkit-media-controls-play-button {
+            display: inline !important;
+        }
+
+        audio::-webkit-media-controls-mute-button {
+            display: none !important;
+            min-width: 0;
+        }
+
+        audio::-webkit-media-controls-volume-slider {
+            display: none !important;
+            min-width: 0;
+        }
+
+        audio::-webkit-media-controls-timeline-container {
+            display: none !important;
+            min-width: 0;
+        }
+
+        audio::-webkit-media-controls-time-remaining-display {
+            display: none !important;
+            min-width: 0;
+        }
+
+        audio::-webkit-media-controls-timeline {
+            display: none !important;
+            min-width: 0;
+        }
+
+        @keyframes audioWidth {
+            from {
+                width: 110px;
+            }
+
+            to {
+                width: 84px;
+            }
+        }
+
+        /** Progress Bar **/
+
+        .invisible-scrollbar {
+            scrollbar-width: none;
+        }
+
+        .invisible-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .progress-bar {
+            margin: 10px auto;
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translate(-50%, 0);
+
+            width: 100%;
+            max-width: 50%;
+
+            height: 10px;
+            border-radius: 5px;
+            border: 1px solid var(--text-color);
+            overflow: hidden;
+
+            &::before {
+                content: '';
+                display: block;
+                background-color: var(--text-color);
+                height: 100%;
+                width: var(--scroll-pct);
+                ;
+            }
+        }
+
+        /** Responsive **/
+
+        @media (max-width: 768px) {
+            body {
+                font-weight: 500 !important;
+            }
+
+            small,
+            sup {
+                font-weight: 400 !important;
+                opacity: 0.5;
+            }
+
+        }
+
+        #timeline-container {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 100;
+        }
+
+        #timeline-label {
+            font-size: 0.7em;
+            font-family: system-ui;
+            font-weight: 300;
+            opacity: 0.6;
+            text-transform: lowercase;
+            margin-bottom: 8px;
+            white-space: nowrap;
+            transition: opacity 0.3s;
+        }
+
+        .progress-bar {
+            position: static !important;
+            transform: none !important;
+            margin: 0 !important;
+            max-width: 100% !important;
+        }
+    </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant%20Garamond:300,400,500,400italic">
+    <style>
+        .nav-arrow {
+            margin-top: 1.5rem;
+            font-size: 1.2rem;
+            color: inherit;
+            opacity: 0.5;
+            text-align: center;
+            user-select: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="h-track">
+        <div class="h-content-container">
+            <header tabindex="1" data-bg-color="white">
+                <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+                    <h1>Mendocino</h1>
+                    <small style="text-align: center;">Pings published by <a href="https://pelberg.com">Peter
+                            Pelberg</a></small>
+                    <div class="nav-arrow">→</div>
+                </div>
+            </header>
+            <section tabindex="1" data-bg-color="#021E6B" data-text-color="white"
+                data-timestamp="10:34 pm • monday, april 21, 2025">
+                <p>
+                    im going to bed feeling optimistic about going to turkey
+                    <br>
+                    <br>
+                    <small>Ping 9,214 of 10,800</small>
+                </p>
+            </section>
+            <section tabindex="1" data-bg-color="#021E6B" data-text-color="white"
+                data-timestamp="10:34 pm • monday, april 21, 2025">
+                <p>
+                    I think it might offer the kind of space I’ve noticed myself needing to reflect and dream
+                    <br>
+                    <br>
+                    <small>Ping 9,215 of 10,800</small>
+                </p>
+            </section>
+            <section tabindex="1" data-bg-color="#021E6B" data-text-color="white"
+                data-timestamp="8:04 pm • monday, april 28, 2025">
+                <p>
+                    I feel really grounded in the choice to not go to turkey
+                    <br>
+                    <br>
+                    <small>Ping 9,260 of 10,800</small>
+                </p>
+            </section>
+            <section tabindex="1" data-bg-color="#021E6B" data-text-color="white"
+                data-timestamp="8:04 pm • monday, april 28, 2025">
+                <p>
+                    I’m proud of myself for how long I allowed myself to live in the discomfort
+                    <br>
+                    <br>
+                    <small>Ping 9,261 of 10,800</small>
+                </p>
+            </section>
+            <section tabindex="1" data-bg-color="#021E6B" data-text-color="white"
+                data-timestamp="8:06 pm • monday, april 28, 2025">
+                <p>
+                    in many ways, today felt unfamiliar…new…as if making this choice helped me take a step into the
+                    future… <br>
+                    <br>
+                    <small>Ping 9,264 of 10,800</small>
+                </p>
+            </section>
+
+            <section tabindex="1" data-bg-color="#021E6B" data-text-color="white"
+                data-timestamp="7:21 pm • tuesday, april 29, 2025">
+                <p>
+                    @dad: the drive can be relaxing
+                    <br>
+                    <br>
+                    <small>Ping 9,274 of 10,800</small>
+                </p>
+            </section>
+            <section tabindex="1" data-bg-color="black" data-text-color="white"
+                data-timestamp="8:47pm • thursday, may 1, 2025">
+                <figure><img
+                        src="https://github.com/PTPells/pelbergdot/blob/master/site/assets/mendocino-1may2025.jpeg?raw=true">
+
+                </figure>
+            </section>
+            <!-- <section tabindex="1" data-bg-color="black" data-text-color="white">
+                <figure><img
+                        src="https://github.com/PTPells/pelbergdot/blob/master/site/assets/intention-1may2025.jpg?raw=true">
+                    <figcaption><small> 9:23pm • thursday, may 1, 2025</small></figcaption>
+                </figure>
+            </section> -->
+
+            <!-- <section tabindex="1" data-bg-color="#021E6B" data-text-color="white">
+                <p>
+                    <small>8:39 pm &bull; thursday, may 1, 2025</small>
+                    <br>
+                    <br>
+                    The path to lightness lies in invention
+                    <br>
+                    <br>
+                    <small>Ping 9,280 of 10,800</small>
+                </p>
+            </section> -->
+
+            <section tabindex="1" data-bg-color="#021E6B" data-text-color="white"
+                data-timestamp="8:40 pm • thursday, may 1, 2025">
+                <p>
+                    One of the scariest part of meeting in need is not knowing where it might take you
+                    <br>
+                    <br>
+                    <small>Ping 9,281 of 10,800</small>
+                </p>
+            </section>
+            <section tabindex="1" data-bg-color="black" data-text-color="white"
+                data-timestamp="1:42pm • friday, may 2, 2025">
+                <figure><img
+                        src="https://github.com/PTPells/pelbergdot/blob/master/site/assets/mendocino-library-2may2025.jpg?raw=true">
+
+                </figure>
+            </section>
+            <section tabindex="1" data-bg-color="#021E6B" data-text-color="white"
+                data-timestamp="2:19 pm • friday, may 2, 2025">
+                <p>
+                    the vision doesn’t neee to crystal clear, @peter…remember the sketch from February 2022 <br>
+                    <br>
+                    <small>Ping 9,287 of 10,800</small>
+                </p>
+            </section>
+            <section tabindex="1" data-bg-color="black" data-text-color="white"
+                data-timestamp="7:10pm • monday, february 21, 2022">
+                <figure><img
+                        src="https://github.com/PTPells/pelbergdot/blob/master/site/assets/21feb2022-1910.jpeg?raw=true">
+
+                </figure>
+            </section>
+            <section tabindex="1" data-bg-color="black" data-text-color="white"
+                data-timestamp="8:56pm • wednesday, february 23, 2022">
+                <figure><img
+                        src="https://github.com/PTPells/pelbergdot/blob/master/site/assets/23feb2022-2056.jpeg?raw=true">
+
+                </figure>
+            </section>
+
+            <!-- <section tabindex="1" data-bg-color="#021E6B" data-text-color="white">
+                <p>
+                    <small>8:30 pm &bull; friday, may 2, 2025</small>
+                    <br>
+                    <br>
+                    meta: first step, experiment with swiping through screenshots of pings
+                    <br>
+                    <br>
+                    <small>Ping 9,301 of 10,800</small>
+                </p>
+            </section>-->
+
+            <!-- <section tabindex="1" data-bg-color="#021E6B" data-text-color="white">
+                <p>
+                    <small>8:49 pm &bull; friday, may 2, 2025</small>
+                    <br>
+                    <br>
+                    meta: building on what @laurel experimented with with including pings in transmissions, I wonder
+                    what might change about a ping when you set it to “public” ?
+                    <br>
+                    <br>
+                    <small>Ping 9,303 of 10,800</small>
+                </p>
+            </section> -->
+
+            <!-- <section tabindex="1" data-bg-color="#021E6B" data-text-color="white">
+                <p>
+                    <small>9:52 pm &bull; friday, may 2, 2025</small>
+                    <br>
+                    <br>
+                    sunny transitioning into gray…I was describing the weather today to @dad in Mendocino today and he
+                    said, “sounds like you”
+                    <br>
+                    <br>
+                    <small>Ping 9,308 of 10,800</small>
+                </p>
+            </section> -->
+
+            <!--  <section tabindex="1" data-bg-color="#021E6B" data-text-color="white">
+                <p>
+                    <small>9:53 pm &bull; friday, may 2, 2025</small>
+                    <br>
+                    <br>
+                    he quickly intervened, “i don’t mean it one way or the other. We’re all shifting environments.”
+                    <br>
+                    <br>
+                    <small>Ping 9,310 of 10,800</small>
+                </p>
+            </section> -->
+
+            <section tabindex="1" data-bg-color="#021E6B" data-text-color="white"
+                data-timestamp="5:00 pm • friday, may 2, 2025">
+                <p>
+                    structure comes second
+                    <br>
+                    <br>
+                    <small>Ping 9,288 of 10,800</small>
+                </p>
+            </section>
+            <section tabindex="1" data-bg-color="#021E6B" data-text-color="white"
+                data-timestamp="7:29 pm • friday, may 2, 2025">
+                <p>
+                    big day, Peter...tonight is about ease and rest
+                    <br>
+                    <br>
+                    <small>Ping 9,292 of 10,800</small>
+                </p>
+            </section>
+            <!-- <section tabindex="1" data-bg-color="black" data-text-color="white">
+                <figure><img
+                        src="https://github.com/PTPells/pelbergdot/blob/master/site/assets/3may2025-1003.jpeg?raw=true">
+                    <figcaption><small> 10:03am • saturday, may 3, 2025</small></figcaption>
+                </figure>
+            </section> -->
+            <section tabindex="1" data-bg-color="black" data-text-color="white"
+                data-timestamp="10:17am • saturday, may 3, 2025">
+                <figure><img
+                        src="https://d2w9rnfcy7mm78.cloudfront.net/36430814/original_ac5c9606c69790f223b235c0e38968ff.png?1746294901?bc=0">
+
+                </figure>
+            </section>
+            <section tabindex="1" data-bg-color="black" data-text-color="white"
+                data-timestamp="11:50am • saturday, may 3, 2025">
+                <figure><img
+                        src="https://d2w9rnfcy7mm78.cloudfront.net/36431435/original_df51a672d2eee84355684fcffbb5c9e7.jpg?1746298288?bc=0">
+
+                </figure>
+            </section>
+            <section tabindex="1" data-bg-color="#ffffff" data-timestamp="">
+                <img src="https://github.com/PTPells/pelbergdot/blob/master/site/assets/stamp-v1.1.png?raw=true"
+                    width="150px" height="150px">
+            </section>
+
+
+
+        </div>
+
+        <div id="timeline-container">
+            <div id="timeline-label"></div>
+            <div class="progress-bar"></div>
+        </div>
+
+    </div>
+    <script>
+        const track = document.querySelector('.h-track');
+
+        if (track) {
+
+            track.classList.add('invisible-scrollbar');
+            const trackContainer = track.querySelector('.h-content-container')
+
+            let registeredScroll = false;
+            let outerWidth = track.offsetWidth;
+            let innerWidth = trackContainer.scrollWidth;
+
+            const updatePct = () => {
+                const pct = (track.scrollLeft / (innerWidth - outerWidth)) * 100;
+
+                track.dataset.scrollPercent = pct;
+                document.documentElement.style.setProperty('--scroll-pct', `${track.dataset.scrollPercent}%`);
+            }
+            updatePct();
+
+            window.addEventListener('resize', (e) => {
+                outerWidth = track.offsetWidth;
+                innerWidth = trackContainer.scrollWidth;
+                updatePct();
+            });
+
+            track.addEventListener("scroll", (evt) => {
+                if (!registeredScroll) {
+                    track.setAttribute('data-scroll', track.scrollLeft + evt.deltaY + evt.deltaX)
+                }
+            });
+
+            track.addEventListener("wheel", (evt) => {
+                registeredScroll = true;
+                evt.preventDefault();
+                console.log(evt.deltaY);
+                const tpMultiplier = evt.deltaY % 1 === 0 ? 5 : 1;
+                track.setAttribute('data-scroll', track.scrollLeft + (evt.deltaY * tpMultiplier) + (evt.deltaX * tpMultiplier))
+
+            });
+
+            let pos = { top: 0, left: 0, x: 0, y: 0 };
+
+            window.addEventListener('keydown', (e) => {
+
+                if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
+                    registeredScroll = true;
+                    track.setAttribute('data-scroll', track.scrollLeft - 100)
+                } else if (e.key === "ArrowDown" || e.key === "ArrowRight") {
+                    registeredScroll = true;
+                    track.setAttribute('data-scroll', track.scrollLeft + 100)
+                }
+            })
+
+            const mouseDownHandler = (e) => {
+                registeredScroll = true;
+
+                track.style.cursor = 'grabbing';
+                track.style.userSelect = 'none';
+
+                pos = {
+                    left: track.scrollLeft,
+                    x: e.clientX ?? e.touches?.[0]?.clientX + e.touches?.[0]?.clientY ?? 0,
+                };
+
+                document.addEventListener('mousemove', mouseMoveHandler);
+                document.addEventListener('mouseup', mouseUpHandler);
+
+            };
+
+            const mouseMoveHandler = (e) => {
+                registeredScroll = true;
+
+                const cx = e.clientX ?? e.touches?.[0]?.clientX + e.touches?.[0]?.clientY ?? 0
+                const dx = cx - pos.x;
+                track.setAttribute('data-scroll', pos.left - dx)
+            };
+
+            const mouseUpHandler = () => {
+                document.removeEventListener('mousemove', mouseMoveHandler);
+                document.removeEventListener('mouseup', mouseUpHandler);
+
+                track.style.cursor = 'grab';
+                track.style.removeProperty('user-select');
+            };
+
+            const update = () => {
+
+                if (registeredScroll) {
+                    const toX = parseFloat(track.getAttribute('data-scroll')) ?? 0;
+                    const dx = toX - track.scrollLeft;
+
+                    if (dx > 1 || dx < -1) {
+                        track.scrollLeft += dx * .10;
+                    } else {
+                        track.scrollLeft = toX;
+                        registeredScroll = false;
+                    }
+                }
+                updatePct();
+                requestAnimationFrame(update);
+            }
+
+            requestAnimationFrame(update);
+
+        }
+
+        //Color changing sections
+
+        const defaults = {
+            bgColor: document.documentElement.style.getPropertyValue('--bg-color'),
+            textColor: document.documentElement.style.getPropertyValue('--text-color')
+        }
+
+        const bgColorObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    document.documentElement.style.setProperty('--bg-color', entry.target.dataset.bgColor ?? defaults.bgColor);
+                    document.documentElement.style.setProperty('--text-color', entry.target.dataset.textColor ?? defaults.textColor);
+                }
+            });
+        }, {
+            rootMargin: '0px',
+            threshold: 0.501
+        });
+
+        document.querySelectorAll('[data-bg-color]').forEach(changer => {
+            changer.style.setProperty('background-color', changer.dataset.navColor); //this is just to know which is which
+            bgColorObserver.observe(changer);
+        });
+
+        const timelineLabel = document.getElementById('timeline-label');
+        const sections = document.querySelectorAll('section');
+
+        const timelineObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const timestamp = entry.target.getAttribute('data-timestamp');
+                    if (timestamp && timelineLabel) {
+                        timelineLabel.innerHTML = timestamp;
+                    } else if (timelineLabel) {
+                        timelineLabel.innerHTML = '';
+                    }
+                }
+            });
+        }, {
+            root: document.querySelector('.h-track'),
+            threshold: 0.51
+        });
+
+        sections.forEach(sec => timelineObserver.observe(sec));
+    </script>
+
+</body>
+
+</html>
