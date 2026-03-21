@@ -27,7 +27,8 @@
             background-color: var(--bg-color);
             transition: background-color 1s, color 1s;
             font-family: Cormorant Garamond;
-            font-size: 1.25em;
+            font-size: 1.3em;
+            line-height: 1.5em;
         }
 
         h1,
@@ -38,9 +39,19 @@
         }
 
         small {
-            font-size: 0.8em;
-            opacity: 0.5;
-            text-align: left;
+            font-size: 0.6em;
+            font-family: system-ui;
+            font-weight: 300;
+            opacity: 0.6;
+            text-transform: lowercase;
+        }
+
+        sup {
+            font-size: 0.5em;
+            font-family: system-ui;
+            font-weight: 300;
+            opacity: 0.75;
+            margin-left: 1px;
         }
 
         a {
@@ -59,8 +70,10 @@
 
         img {
             width: auto;
+            max-width: 90vw;
             max-height: 75dvh;
             border-radius: 15px;
+            object-fit: contain;
         }
 
         .image-row {
@@ -194,24 +207,45 @@
             body {
                 font-weight: 500 !important;
             }
+
+            small,
+            sup {
+                font-weight: 400 !important;
+                opacity: 0.5;
+            }
+
         }
     </style>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant Garamond:300,400,500,400italic">
+    <style>
+        .nav-arrow {
+            margin-top: 1.5rem;
+            font-size: 1.2rem;
+            color: inherit;
+            opacity: 0.5;
+            text-align: center;
+            user-select: none;
+        }
+    </style>
 </head>
 
 <body>
     <div class="h-track">
         <div class="h-content-container">
-            <section tabindex="1" data-bg-color="black" data-text-color="white">
+            <!-- <section tabindex="1" data-bg-color="black" data-text-color="white">
                 <figure><img
                         src="https://github.com/PTPells/pelbergdot/blob/master/site/assets/bikeseat-15may2025.png?raw=true">
                     <figcaption><small> 8:47pm • thursday, may 15, 2025</small></figcaption>
                 </figure>
-            </section>
+            </section> -->
             <header tabindex="1" data-bg-color="white">
-                <div>
-                    <h1>Mendocino, California</h1>
-                    <small>Published by <a href="https://pelberg.com">Peter Pelberg</a></small>
+                <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+                    <h1>Bike Seat</h1>
+                    <small style="text-align: center;">Pings published by <a href="https://pelberg.com">Peter
+                            Pelberg</a> •
+                        friday, march 20,
+                        2026</small>
+                    <div class="nav-arrow">&rarr;</div>
                 </div>
             </header>
             <section tabindex="1" data-bg-color="#021E6B" data-text-color="white">
