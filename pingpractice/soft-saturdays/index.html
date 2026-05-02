@@ -1,0 +1,486 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bike seat</title>
+    <style>
+        @charset "UTF-8";
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box
+        }
+
+        :root {
+            --bg-color: white;
+            --text-color: black;
+            --scroll-pct: 0;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: background-color 1s, color 1s;
+            font-family: Cormorant Garamond;
+            font-size: 1.3em;
+            line-height: 1.5em;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-style: italic;
+        }
+
+        small {
+            font-size: 0.6em;
+            font-family: system-ui;
+            font-weight: 300;
+            opacity: 0.6;
+        }
+
+        sup {
+            font-size: 0.5em;
+            font-family: system-ui;
+            font-weight: 300;
+            opacity: 0.75;
+            margin-left: 1px;
+        }
+
+        a {
+            color: var(--text-color);
+            text-decoration: none !important;
+            -o-transition: .5s;
+            -ms-transition: .5s;
+            -moz-transition: .5s;
+            -webkit-transition: .5s;
+            transition: .5s;
+        }
+
+        a:hover {
+            opacity: 0.5;
+        }
+
+        img {
+            width: auto;
+            max-width: 90vw;
+            max-height: 75dvh;
+            border-radius: 15px;
+            object-fit: contain;
+        }
+
+        .image-row {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        p {
+            max-width: 70vw;
+        }
+
+        h1 {
+            max-width: 70vw;
+        }
+
+        /** Content **/
+
+        .h-track {
+            width: 100%;
+            height: 100dvh;
+            overflow-x: auto;
+            position: relative;
+            overflow-y: hidden;
+
+            .h-content-container {
+                position: relative;
+                max-width: unset;
+                width: fit-content;
+                height: 98dvh;
+                display: flex;
+                align-items: center;
+                transition: transform .2s linear;
+
+                >* {
+                    display: grid;
+                    place-items: center;
+                    min-width: 100vw;
+                }
+
+            }
+        }
+
+        /** Audio Player **/
+
+        audio {
+            width: 110px;
+            animation: audioWidth 0.1s forwards;
+        }
+
+        audio::-webkit-media-controls-panel {
+            justify-content: center;
+        }
+
+        audio::-webkit-media-controls-play-button {
+            display: inline !important;
+        }
+
+        audio::-webkit-media-controls-mute-button {
+            display: none !important;
+            min-width: 0;
+        }
+
+        audio::-webkit-media-controls-volume-slider {
+            display: none !important;
+            min-width: 0;
+        }
+
+        audio::-webkit-media-controls-timeline-container {
+            display: none !important;
+            min-width: 0;
+        }
+
+        audio::-webkit-media-controls-time-remaining-display {
+            display: none !important;
+            min-width: 0;
+        }
+
+        audio::-webkit-media-controls-timeline {
+            display: none !important;
+            min-width: 0;
+        }
+
+        @keyframes audioWidth {
+            from {
+                width: 110px;
+            }
+
+            to {
+                width: 84px;
+            }
+        }
+
+        /** Progress Bar **/
+
+        .invisible-scrollbar {
+            scrollbar-width: none;
+        }
+
+        .invisible-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .progress-bar {
+            margin: 10px auto;
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translate(-50%, 0);
+
+            width: 100%;
+            max-width: 50%;
+
+            height: 10px;
+            border-radius: 5px;
+            border: 1px solid var(--text-color);
+            overflow: hidden;
+
+            &::before {
+                content: '';
+                display: block;
+                background-color: var(--text-color);
+                height: 100%;
+                width: var(--scroll-pct);
+                ;
+            }
+        }
+
+        /** Responsive **/
+
+        @media (max-width: 768px) {
+            body {
+                font-weight: 500 !important;
+            }
+
+            small,
+            sup {
+                font-weight: 400 !important;
+                opacity: 0.5;
+            }
+
+        }
+    </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant Garamond:300,400,500,400italic">
+    <style>
+        .nav-arrow {
+            margin-top: 1.5rem;
+            font-size: 1.2rem;
+            color: inherit;
+            opacity: 0.5;
+            text-align: center;
+            user-select: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="h-track">
+        <div class="h-content-container">
+            <!-- <section tabindex="1" data-bg-color="black" data-text-color="white">
+                <figure><img
+                        src="https://github.com/PTPells/pelbergdot/blob/master/site/assets/bikeseat-15may2025.png?raw=true">
+                    <figcaption><small> 8:47pm • thursday, may 15, 2025</small></figcaption>
+                </figure>
+            </section> -->
+            <header tabindex="1" data-bg-color="white">
+                <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+                    <h1>Soft Saturdays</h1>
+                    <small style="text-align: center;">Pings published by <a href="https://pelberg.com">Peter
+                            Pelberg</a> •
+                        saturday, may 2,
+                        2026</small>
+                    <div class="nav-arrow">&rarr;</div>
+                </div>
+            </header>
+            <section tabindex="1" data-bg-color="#021E6B" data-text-color="white">
+                <p>
+                    <small>7:53pm &bull; thursday, september 15, 2022</small>
+                    <br>
+                    <br>
+                    old phone as “saturday phone” <a href="https://t.co/ZTff5uQrfV"
+                        target="_blank">https://t.co/ZTff5uQrfV</a>
+                    <br>
+                    <br>
+                    <small>Ping 2,745 of 10,800</small>
+                </p>
+            </section>
+
+            <section tabindex="1" data-bg-color="#021E6B" data-text-color="white">
+                <p>
+                    <small>8:01pm &bull; saturday, april 8, 2023</small>
+                    <br>
+                    <br>
+                    i want a way to be able to name/demarcate periods of time and places where i can place reminders
+                    within (e.g. saturdays)
+                    <br>
+                    <br>
+                    <small>Ping 1,817 of 10,800</small>
+                </p>
+            </section>
+
+            <section tabindex="1" data-bg-color="#021E6B" data-text-color="white">
+                <p>
+                    <small>5:50pm &bull; saturday, april 29, 2023</small>
+                    <br>
+                    <br>
+                    being able to see clearer boundaries between thoughts and behaviors. E.g. resting on a Saturday does
+                    not mean I’ve lost my drive
+                    <br>
+                    <br>
+                    <small>Ping 1,676 of 10,800</small>
+                </p>
+            </section>
+
+            <section tabindex="1" data-bg-color="#021E6B" data-text-color="white">
+                <p>
+                    <small>11:32pm &bull; saturday, april 29, 2023</small>
+                    <br>
+                    <br>
+                    soft Saturday’s worked today wow
+                    <br>
+                    <br>
+                    <small>Ping 1,658 of 10,800</small>
+                </p>
+            </section>
+
+            <section tabindex="1" data-bg-color="#021E6B" data-text-color="white">
+                <p>
+                    <small>11:34pm &bull; saturday, april 29, 2023</small>
+                    <br>
+                    <br>
+                    Idea to write about: what to do in saturdays and it being a larger pattern about making choices in
+                    infiniteness
+                    <br>
+                    <br>
+                    <small>Ping 1,655 of 10,800</small>
+                </p>
+            </section>
+
+            <section tabindex="1" data-bg-color="#021E6B" data-text-color="white">
+                <p>
+                    <small>3:45pm &bull; sunday, april 30, 2023</small>
+                    <br>
+                    <br>
+                    soft Saturday’s is about slowing down…checking in the choices / reflexes that happen
+                    fast…instinctive…SCRIPTED
+                    <br>
+                    <br>
+                    <small>Ping 1,645 of 10,800</small>
+                </p>
+            </section>
+
+            <section tabindex="1" data-bg-color="#021E6B" data-text-color="white">
+                <p>
+                    <small>1:23pm &bull; sunday, july 16, 2023</small>
+                    <br>
+                    <br>
+                    <br>
+                    <small>Ping 1,234 of 10,800</small>
+                </p>
+            </section>
+
+            <section tabindex="1" data-bg-color="white">
+                <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+
+                    <small style="text-align: center;">via <a href="https://pingpractice.org">Ping Practice</a>
+                    </small>
+                </div>
+            </section>
+
+        </div>
+
+        <div class="progress-bar"></div>
+    </div>
+    <script>
+        const track = document.querySelector('.h-track');
+
+        if (track) {
+
+            track.classList.add('invisible-scrollbar');
+            const trackContainer = track.querySelector('.h-content-container')
+
+            let registeredScroll = false;
+            let outerWidth = track.offsetWidth;
+            let innerWidth = trackContainer.scrollWidth;
+
+            const updatePct = () => {
+                const pct = (track.scrollLeft / (innerWidth - outerWidth)) * 100;
+
+                track.dataset.scrollPercent = pct;
+                document.documentElement.style.setProperty('--scroll-pct', `${track.dataset.scrollPercent}%`);
+            }
+            updatePct();
+
+            window.addEventListener('resize', (e) => {
+                outerWidth = track.offsetWidth;
+                innerWidth = trackContainer.scrollWidth;
+                updatePct();
+            });
+
+            track.addEventListener("scroll", (evt) => {
+                if (!registeredScroll) {
+                    track.setAttribute('data-scroll', track.scrollLeft + evt.deltaY + evt.deltaX)
+                }
+            });
+
+            track.addEventListener("wheel", (evt) => {
+                registeredScroll = true;
+                evt.preventDefault();
+                console.log(evt.deltaY);
+                const tpMultiplier = evt.deltaY % 1 === 0 ? 5 : 1;
+                track.setAttribute('data-scroll', track.scrollLeft + (evt.deltaY * tpMultiplier) + (evt.deltaX * tpMultiplier))
+
+            });
+
+            let pos = { top: 0, left: 0, x: 0, y: 0 };
+
+            window.addEventListener('keydown', (e) => {
+
+                if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
+                    registeredScroll = true;
+                    track.setAttribute('data-scroll', track.scrollLeft - 100)
+                } else if (e.key === "ArrowDown" || e.key === "ArrowRight") {
+                    registeredScroll = true;
+                    track.setAttribute('data-scroll', track.scrollLeft + 100)
+                }
+            })
+
+            const mouseDownHandler = (e) => {
+                registeredScroll = true;
+
+                track.style.cursor = 'grabbing';
+                track.style.userSelect = 'none';
+
+                pos = {
+                    left: track.scrollLeft,
+                    x: e.clientX ?? e.touches?.[0]?.clientX + e.touches?.[0]?.clientY ?? 0,
+                };
+
+                document.addEventListener('mousemove', mouseMoveHandler);
+                document.addEventListener('mouseup', mouseUpHandler);
+
+            };
+
+            const mouseMoveHandler = (e) => {
+                registeredScroll = true;
+
+                const cx = e.clientX ?? e.touches?.[0]?.clientX + e.touches?.[0]?.clientY ?? 0
+                const dx = cx - pos.x;
+                track.setAttribute('data-scroll', pos.left - dx)
+            };
+
+            const mouseUpHandler = () => {
+                document.removeEventListener('mousemove', mouseMoveHandler);
+                document.removeEventListener('mouseup', mouseUpHandler);
+
+                track.style.cursor = 'grab';
+                track.style.removeProperty('user-select');
+            };
+
+            track.addEventListener('mousedown', mouseDownHandler);
+
+            const update = () => {
+
+                if (registeredScroll) {
+                    const toX = parseFloat(track.getAttribute('data-scroll')) ?? 0;
+                    const dx = toX - track.scrollLeft;
+
+                    if (dx > 1 || dx < -1) {
+                        track.scrollLeft += dx * .10;
+                    } else {
+                        track.scrollLeft = toX;
+                        registeredScroll = false;
+                    }
+                }
+                updatePct();
+                requestAnimationFrame(update);
+            }
+
+            requestAnimationFrame(update);
+
+        }
+
+        //Color changing sections
+
+        const defaults = {
+            bgColor: document.documentElement.style.getPropertyValue('--bg-color'),
+            textColor: document.documentElement.style.getPropertyValue('--text-color')
+        }
+
+
+        const bgColorObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    document.documentElement.style.setProperty('--bg-color', entry.target.dataset.bgColor ?? defaults.bgColor);
+                    document.documentElement.style.setProperty('--text-color', entry.target.dataset.textColor ?? defaults.textColor);
+                }
+            });
+        }, {
+            rootMargin: '0px',
+            threshold: 0.501
+        });
+
+        document.querySelectorAll('[data-bg-color]').forEach(changer => {
+            changer.style.setProperty('background-color', changer.dataset.navColor); //this is just to know which is which
+            bgColorObserver.observe(changer);
+        });
+    </script>
+
+</body>
+
+</html>
