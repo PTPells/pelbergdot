@@ -94,7 +94,7 @@
         .h-track {
             width: 100%;
             height: 100dvh;
-            overflow-x: auto;
+            overflow-x: hidden;
             position: relative;
             overflow-y: hidden;
 
@@ -238,7 +238,7 @@
                     <h1>Soft Saturdays</h1>
                     <small style="text-align: center;">Pings published by <a href="https://pelberg.com">Peter
                             Pelberg</a> •
-                        saturday, may 2,
+                        saturday, may 9,
                         2026</small>
                     <div class="nav-arrow">&rarr;</div>
                 </div>
@@ -273,7 +273,7 @@
                     <small>Ping 1,817 of 10,800</small>
                 </p>
             </section>
-            <section tabindex="1" data-bg-color="#021E6B" data-text-color="white">
+            <!-- <section tabindex="1" data-bg-color="#021E6B" data-text-color="white">
                 <p>
                     <small>6:08pm &bull; wednesday, april 19, 2023</small>
                     <br>
@@ -291,7 +291,7 @@
                     <br>
                     <small>Ping 1,676 of 10,800</small>
                 </p>
-            </section>
+            </section>-->
 
             <section tabindex="1" data-bg-color="#021E6B" data-text-color="white">
                 <p>
@@ -375,15 +375,7 @@
                 </p>
             </section>-->
 
-            <section tabindex="1" data-bg-color="#021E6B" data-text-color="white">
-                <p>
-                    <small>1:23pm &bull; sunday, july 16, 2023</small>
-                    <br>
-                    <br>
-                    <br>
-                    <small>Ping 1,234 of 10,800</small>
-                </p>
-            </section>
+
 
             <section tabindex="1" data-bg-color="white">
                 <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
@@ -417,73 +409,56 @@
             }
             updatePct();
 
+            const items = Array.from(trackContainer.children);
+            let currentIndex = 0;
+
+            const scrollToCurrentIndex = () => {
+                if (items[currentIndex]) {
+                    registeredScroll = true;
+                    track.setAttribute('data-scroll', items[currentIndex].offsetLeft);
+                }
+            };
+
             window.addEventListener('resize', (e) => {
                 outerWidth = track.offsetWidth;
                 innerWidth = trackContainer.scrollWidth;
+                scrollToCurrentIndex();
                 updatePct();
             });
 
-            track.addEventListener("scroll", (evt) => {
-                if (!registeredScroll) {
-                    track.setAttribute('data-scroll', track.scrollLeft + evt.deltaY + evt.deltaX)
+            window.addEventListener('click', (e) => {
+                // Ignore clicks on links or media controls
+                if (e.target.closest('a') || e.target.closest('video') || e.target.closest('audio') || e.target.closest('button')) return;
+
+                const clickX = e.clientX;
+                const windowWidth = window.innerWidth;
+
+                if (clickX > windowWidth / 2) {
+                    if (currentIndex < items.length - 1) {
+                        currentIndex++;
+                        scrollToCurrentIndex();
+                    }
+                } else {
+                    if (currentIndex > 0) {
+                        currentIndex--;
+                        scrollToCurrentIndex();
+                    }
                 }
             });
-
-            track.addEventListener("wheel", (evt) => {
-                registeredScroll = true;
-                evt.preventDefault();
-                console.log(evt.deltaY);
-                const tpMultiplier = evt.deltaY % 1 === 0 ? 5 : 1;
-                track.setAttribute('data-scroll', track.scrollLeft + (evt.deltaY * tpMultiplier) + (evt.deltaX * tpMultiplier))
-
-            });
-
-            let pos = { top: 0, left: 0, x: 0, y: 0 };
 
             window.addEventListener('keydown', (e) => {
-
-                if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
-                    registeredScroll = true;
-                    track.setAttribute('data-scroll', track.scrollLeft - 100)
-                } else if (e.key === "ArrowDown" || e.key === "ArrowRight") {
-                    registeredScroll = true;
-                    track.setAttribute('data-scroll', track.scrollLeft + 100)
+                if (e.key === "ArrowRight" || e.key === "ArrowDown" || e.key === " ") {
+                    if (currentIndex < items.length - 1) {
+                        currentIndex++;
+                        scrollToCurrentIndex();
+                    }
+                } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+                    if (currentIndex > 0) {
+                        currentIndex--;
+                        scrollToCurrentIndex();
+                    }
                 }
-            })
-
-            const mouseDownHandler = (e) => {
-                registeredScroll = true;
-
-                track.style.cursor = 'grabbing';
-                track.style.userSelect = 'none';
-
-                pos = {
-                    left: track.scrollLeft,
-                    x: e.clientX ?? e.touches?.[0]?.clientX + e.touches?.[0]?.clientY ?? 0,
-                };
-
-                document.addEventListener('mousemove', mouseMoveHandler);
-                document.addEventListener('mouseup', mouseUpHandler);
-
-            };
-
-            const mouseMoveHandler = (e) => {
-                registeredScroll = true;
-
-                const cx = e.clientX ?? e.touches?.[0]?.clientX + e.touches?.[0]?.clientY ?? 0
-                const dx = cx - pos.x;
-                track.setAttribute('data-scroll', pos.left - dx)
-            };
-
-            const mouseUpHandler = () => {
-                document.removeEventListener('mousemove', mouseMoveHandler);
-                document.removeEventListener('mouseup', mouseUpHandler);
-
-                track.style.cursor = 'grab';
-                track.style.removeProperty('user-select');
-            };
-
-            track.addEventListener('mousedown', mouseDownHandler);
+            });
 
             const update = () => {
 
