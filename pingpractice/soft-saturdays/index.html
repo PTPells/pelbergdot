@@ -251,7 +251,7 @@
                     old phone as “saturday phone”
                     <br>
                     <br>
-                    <small>Ping 2,745 of 10,800</small>
+                    <small>Ping 2,745 of 11,731</small>
                 </p>
             </section>
             <section tabindex="1" data-bg-color="black" data-text-color="white">
@@ -270,7 +270,7 @@
                     within (e.g. saturdays)
                     <br>
                     <br>
-                    <small>Ping 1,817 of 10,800</small>
+                    <small>Ping 1,817 of 11,731</small>
                 </p>
             </section>
             <!-- <section tabindex="1" data-bg-color="#021E6B" data-text-color="white">
@@ -301,7 +301,7 @@
                     soft saturdays
                     <br>
                     <br>
-                    <small>Ping 1,676 of 10,800</small>
+                    <small>Ping 1,676 of 11,731</small>
                 </p>
             </section>
             <section tabindex="1" data-bg-color="#021E6B" data-text-color="white">
@@ -312,7 +312,7 @@
                     soft soled shoes
                     <br>
                     <br>
-                    <small>Ping 1,677 of 10,800</small>
+                    <small>Ping 1,677 of 11,731</small>
                 </p>
             </section>
             <section tabindex="1" data-bg-color="#021E6B" data-text-color="white">
@@ -324,7 +324,7 @@
                     not mean I’ve lost my drive
                     <br>
                     <br>
-                    <small>Ping 1,676 of 10,800</small>
+                    <small>Ping 1,676 of 11,731</small>
                 </p>
             </section>
 
@@ -345,7 +345,7 @@
                     soft Saturday’s worked today wow
                     <br>
                     <br>
-                    <small>Ping 1,658 of 10,800</small>
+                    <small>Ping 1,658 of 11,731</small>
                 </p>
             </section>
 
@@ -358,7 +358,7 @@
                     infiniteness
                     <br>
                     <br>
-                    <small>Ping 1,655 of 10,800</small>
+                    <small>Ping 1,655 of 11,731</small>
                 </p>
             </section>
 
@@ -432,7 +432,24 @@
 
                 const clickX = e.clientX;
                 const windowWidth = window.innerWidth;
+                const isFirstSlide = currentIndex === 0;
+                const isLastSlide = currentIndex === items.length - 1;
 
+                // First slide: any tap goes forward
+                if (isFirstSlide) {
+                    currentIndex++;
+                    scrollToCurrentIndex();
+                    return;
+                }
+
+                // Last slide: any tap goes backward
+                if (isLastSlide) {
+                    currentIndex--;
+                    scrollToCurrentIndex();
+                    return;
+                }
+
+                // Middle slides: left/right halves
                 if (clickX > windowWidth / 2) {
                     if (currentIndex < items.length - 1) {
                         currentIndex++;
