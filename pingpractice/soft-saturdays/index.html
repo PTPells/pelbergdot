@@ -467,10 +467,14 @@
                     return;
                 }
 
-                // Last slide: any tap goes backward
+                // Last slide: right tap navigates to Ping Practice, left tap goes back
                 if (isLastSlide) {
-                    currentIndex--;
-                    scrollToCurrentIndex();
+                    if (clickX > windowWidth / 2) {
+                        window.location.href = 'https://pelberg.com/pingpractice/';
+                    } else {
+                        currentIndex--;
+                        scrollToCurrentIndex();
+                    }
                     return;
                 }
 
