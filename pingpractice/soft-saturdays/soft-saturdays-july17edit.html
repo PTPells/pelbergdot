@@ -1,0 +1,561 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soft Saturdays</title>
+    <style>
+        @charset "UTF-8";
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box
+        }
+
+        :root {
+            --bg-color: white;
+            --text-color: black;
+            --scroll-pct: 0;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: background-color 1s, color 1s;
+            font-family: Cormorant Garamond;
+            font-size: 1.3em;
+            line-height: 1.5em;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-style: italic;
+        }
+
+        small {
+            font-size: 0.6em;
+            font-family: system-ui;
+            font-weight: 300;
+            opacity: 0.6;
+        }
+
+        sup {
+            font-size: 0.5em;
+            font-family: system-ui;
+            font-weight: 300;
+            opacity: 0.75;
+            margin-left: 1px;
+        }
+
+        a {
+            color: var(--text-color);
+            text-decoration: none !important;
+            -o-transition: .5s;
+            -ms-transition: .5s;
+            -moz-transition: .5s;
+            -webkit-transition: .5s;
+            transition: .5s;
+        }
+
+        a:hover {
+            opacity: 0.5;
+        }
+
+        img,
+        video {
+            width: auto;
+            max-width: 90vw;
+            max-height: 75dvh;
+            border-radius: 15px;
+            object-fit: contain;
+        }
+
+        .image-row {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        p {
+            max-width: 70vw;
+        }
+
+        h1 {
+            max-width: 70vw;
+        }
+
+        /** Content **/
+
+        .h-track {
+            width: 100%;
+            height: 100dvh;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            position: relative;
+            overflow-y: hidden;
+
+            .h-content-container {
+                position: relative;
+                max-width: unset;
+                width: fit-content;
+                height: 98dvh;
+                display: flex;
+                align-items: center;
+                transition: transform .2s linear;
+
+                >* {
+                    display: grid;
+                    place-items: center;
+                    min-width: 100vw;
+                }
+
+            }
+        }
+
+        /** Audio Player **/
+
+        audio {
+            width: 110px;
+            animation: audioWidth 0.1s forwards;
+        }
+
+        audio::-webkit-media-controls-panel {
+            justify-content: center;
+        }
+
+        audio::-webkit-media-controls-play-button {
+            display: inline !important;
+        }
+
+        audio::-webkit-media-controls-mute-button {
+            display: none !important;
+            min-width: 0;
+        }
+
+        audio::-webkit-media-controls-volume-slider {
+            display: none !important;
+            min-width: 0;
+        }
+
+        audio::-webkit-media-controls-timeline-container {
+            display: none !important;
+            min-width: 0;
+        }
+
+        audio::-webkit-media-controls-time-remaining-display {
+            display: none !important;
+            min-width: 0;
+        }
+
+        audio::-webkit-media-controls-timeline {
+            display: none !important;
+            min-width: 0;
+        }
+
+        @keyframes audioWidth {
+            from {
+                width: 110px;
+            }
+
+            to {
+                width: 84px;
+            }
+        }
+
+        /** Progress Bar **/
+
+        .invisible-scrollbar {
+            scrollbar-width: none;
+        }
+
+        .invisible-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tick-nav {
+            position: fixed;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            z-index: 10;
+        }
+
+        .tick-nav .tick {
+            width: 2px;
+            height: 12px;
+            background-color: var(--text-color);
+            opacity: 0.15;
+            border-radius: 1px;
+            transition: opacity 0.4s;
+        }
+
+        .tick-nav .tick.active {
+            opacity: 0.9;
+        }
+
+        .tick-nav .tick.near-1 {
+            opacity: 0.45;
+        }
+
+        .tick-nav .tick.near-2 {
+            opacity: 0.3;
+        }
+
+        /** Responsive **/
+
+        @media (max-width: 768px) {
+            body {
+                font-weight: 500 !important;
+            }
+
+            small,
+            sup {
+                font-weight: 400 !important;
+                opacity: 0.5;
+            }
+
+        }
+    </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant Garamond:300,400,500,400italic">
+    <style>
+        .nav-arrow {
+            margin-top: 1.5rem;
+            font-size: 1.2rem;
+            color: inherit;
+            opacity: 0.5;
+            text-align: center;
+            user-select: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="h-track">
+        <div class="h-content-container">
+
+            <header tabindex="1" data-bg-color="white">
+                <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+                    <h1>Soft Saturdays</h1>
+                    <small style="text-align: center;">Pings published by <a href="https://pelberg.com">Peter
+                            Pelberg</a> •
+                        saturday, may 9,
+                        2026</small>
+                    <div class="nav-arrow">&rarr;</div>
+                </div>
+            </header>
+            <section tabindex="1" data-bg-color="#021E6B" data-text-color="white">
+                <p>
+                    <small>7:53pm &bull; saturday, april 8, 2023</small>
+                    <br>
+                    <br>
+                    old phone as “saturday phone”
+                    <br>
+                    <br>
+                    <small>Ping 2,745 of 11,731</small>
+                </p>
+            </section>
+            <section tabindex="1" data-bg-color="black" data-text-color="white">
+                <figure><img
+                        src="https://raw.githubusercontent.com/PTPells/pelbergdot/e52e5a825c4aa2ddadd5c26b41c46e6ec615e2fc/site/assets/SaturdayPhone.JPG">
+                    <figcaption><small> 5:00pm • saturday, april 8, 2023</small></figcaption>
+                </figure>
+            </section>
+
+            <section tabindex="1" data-bg-color="#021E6B" data-text-color="white">
+                <p>
+                    <small>8:01pm &bull; saturday, april 8, 2023</small>
+                    <br>
+                    <br>
+                    i want a way to be able to name/demarcate periods of time and places where i can place reminders
+                    within (e.g. saturdays)
+                    <br>
+                    <br>
+                    <small>Ping 1,817 of 11,731</small>
+                </p>
+            </section>
+            <!-- <section tabindex="1" data-bg-color="#021E6B" data-text-color="white">
+                <p>
+                    <small>6:08pm &bull; wednesday, april 19, 2023</small>
+                    <br>
+                    <br>
+                    idea: a little clock that displays a message during windows you define...e.g:
+                    <br>
+                    7-730: gently arrive into the day
+                    <br>
+                    730-830: what might you focus on today
+                    <br>
+                    830-845: let things settle
+                    <br>
+                    etc.
+                    <br>
+                    <br>
+                    <small>Ping 1,676 of 10,800</small>
+                </p>
+            </section>-->
+
+            <section tabindex="1" data-bg-color="#021E6B" data-text-color="white">
+                <p>
+                    <small>2:50pm &bull; saturday, april 29, 2023</small>
+                    <br>
+                    <br>
+                    soft saturdays
+                    <br>
+                    <br>
+                    <small>Ping 1,676 of 11,731</small>
+                </p>
+            </section>
+            <section tabindex="1" data-bg-color="#021E6B" data-text-color="white">
+                <p>
+                    <small>2:51pm &bull; saturday, april 29, 2023</small>
+                    <br>
+                    <br>
+                    soft soled shoes
+                    <br>
+                    <br>
+                    <small>Ping 1,677 of 11,731</small>
+                </p>
+            </section>
+            <section tabindex="1" data-bg-color="#021E6B" data-text-color="white">
+                <p>
+                    <small>5:50pm &bull; saturday, april 29, 2023</small>
+                    <br>
+                    <br>
+                    being able to see clearer boundaries between thoughts and behaviors. E.g. resting on a Saturday does
+                    not mean I’ve lost my drive
+                    <br>
+                    <br>
+                    <small>Ping 1,676 of 11,731</small>
+                </p>
+            </section>
+
+            <section tabindex="1" data-bg-color="black" data-text-color="white">
+                <figure>
+                    <video
+                        src="https://github.com/PTPells/pelbergdot/blob/fcba0971555b662b66388f69acd4606e35899076/site/assets/SoftSaturdaysMsTurner-Compressed.mp4?raw=true"
+                        controls playsinline></video>
+                    <figcaption><small> 7:28pm • saturday, april 29, 2023</small></figcaption>
+                </figure>
+            </section>
+
+            <section tabindex="1" data-bg-color="#021E6B" data-text-color="white">
+                <p>
+                    <small>11:32pm &bull; saturday, april 29, 2023</small>
+                    <br>
+                    <br>
+                    soft Saturday’s worked today wow
+                    <br>
+                    <br>
+                    <small>Ping 1,658 of 11,731</small>
+                </p>
+            </section>
+
+            <section tabindex="1" data-bg-color="#021E6B" data-text-color="white">
+                <p>
+                    <small>11:34pm &bull; saturday, april 29, 2023</small>
+                    <br>
+                    <br>
+                    Idea to write about: what to do in saturdays and it being a larger pattern about making choices in
+                    infiniteness
+                    <br>
+                    <br>
+                    <small>Ping 1,655 of 11,731</small>
+                </p>
+            </section>
+
+            <!-- <section tabindex="1" data-bg-color="#021E6B" data-text-color="white">
+                <p>
+                    <small>3:45pm &bull; sunday, april 30, 2023</small>
+                    <br>
+                    <br>
+                    soft Saturday’s is about slowing down…checking in the choices / reflexes that happen
+                    fast…instinctive…SCRIPTED
+                    <br>
+                    <br>
+                    <small>Ping 1,645 of 10,800</small>
+                </p>
+            </section>-->
+
+
+
+            <section tabindex="1" data-bg-color="white">
+                <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+
+                    <small style="text-align: center;">via <a href="https://pingpractice.org">Ping Practice</a>
+                    </small>
+                </div>
+            </section>
+
+        </div>
+
+        <nav class="tick-nav" id="tick-nav"></nav>
+    </div>
+    <script>
+        const track = document.querySelector('.h-track');
+
+        if (track) {
+
+            track.classList.add('invisible-scrollbar');
+            const trackContainer = track.querySelector('.h-content-container')
+
+            const items = Array.from(trackContainer.children);
+            let currentIndex = 0;
+
+            // Build tick marks
+            const tickNav = document.getElementById('tick-nav');
+            const ticks = items.map((_, i) => {
+                const tick = document.createElement('div');
+                tick.className = 'tick';
+                tickNav.appendChild(tick);
+                return tick;
+            });
+
+            const updateTicks = () => {
+                ticks.forEach((tick, i) => {
+                    tick.classList.remove('active', 'near-1', 'near-2');
+                    const dist = Math.abs(i - currentIndex);
+                    if (dist === 0) tick.classList.add('active');
+                    else if (dist === 1) tick.classList.add('near-1');
+                    else if (dist === 2) tick.classList.add('near-2');
+                });
+            };
+            updateTicks();
+
+            // How close to a ping's center (as a fraction of viewport width) you
+            // must come to rest before it eases the rest of the way into place.
+            // ~0.35 leaves a genuine "free" band around the midpoint between two
+            // pings, so you never have to fuss to focus one, but can still park.
+            const SETTLE_PROXIMITY = 0.35;
+
+            // Find the ping nearest the viewport center, and how far off it is.
+            const nearest = () => {
+                const center = track.scrollLeft + track.clientWidth / 2;
+                let index = 0, best = Infinity;
+                items.forEach((el, i) => {
+                    const d = Math.abs((el.offsetLeft + el.offsetWidth / 2) - center);
+                    if (d < best) { best = d; index = i; }
+                });
+                return { index, dist: best };
+            };
+
+            // A long, symmetric ease so the settle starts gently and lands
+            // gently — no sudden yank from a standstill.
+            const easeInOutCubic = (t) =>
+                t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+            // How long the settle glide takes, in ms. Longer = softer.
+            const SETTLE_DURATION = 620;
+
+            // Custom eased tween toward a target scroll position. Any new user
+            // input cancels it (see `cancelSettle`), so it never fights you.
+            let settleRaf = null;
+            const cancelSettle = () => {
+                if (settleRaf !== null) { cancelAnimationFrame(settleRaf); settleRaf = null; }
+            };
+            const animateTo = (targetLeft) => {
+                cancelSettle();
+                const startLeft = track.scrollLeft;
+                const delta = targetLeft - startLeft;
+                if (Math.abs(delta) < 1) return;
+                const startTime = performance.now();
+                const step = (now) => {
+                    const t = Math.min(1, (now - startTime) / SETTLE_DURATION);
+                    track.scrollLeft = startLeft + delta * easeInOutCubic(t);
+                    settleRaf = t < 1 ? requestAnimationFrame(step) : null;
+                };
+                settleRaf = requestAnimationFrame(step);
+            };
+
+            const centerOf = (i) =>
+                items[i].offsetLeft + items[i].offsetWidth / 2 - track.clientWidth / 2;
+
+            const scrollToIndex = (i) => {
+                currentIndex = i;
+                animateTo(centerOf(i));
+                updateTicks();
+            };
+
+            // After scrolling stops, settle into the nearest ping if we're within
+            // the proximity zone; otherwise leave the free-scroll position be.
+            const settle = () => {
+                const { index, dist } = nearest();
+                if (dist <= track.clientWidth * SETTLE_PROXIMITY) scrollToIndex(index);
+            };
+
+            // Track the active ping live while scrolling, and debounce the settle
+            // to fire once motion has truly come to rest. `settleRaf === null`
+            // means the movement is the user's, not our own glide, so we only
+            // (re)arm the settle then — our tween never re-triggers itself.
+            let settleTimer = null;
+            track.addEventListener('scroll', () => {
+                const { index } = nearest();
+                if (index !== currentIndex) { currentIndex = index; updateTicks(); }
+                if (settleRaf === null) {
+                    clearTimeout(settleTimer);
+                    settleTimer = setTimeout(settle, 140);
+                }
+            }, { passive: true });
+
+            // Let a vertical mouse wheel move the horizontal track, so desktop
+            // mouse users can scroll too (trackpad/touch swipes work natively).
+            // Fresh input cancels any in-progress settle so it never fights you.
+            track.addEventListener('wheel', (e) => {
+                cancelSettle();
+                if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+                    track.scrollLeft += e.deltaY;
+                    e.preventDefault();
+                }
+            }, { passive: false });
+
+            // Touch or pointer press also hands control straight back to the user.
+            track.addEventListener('pointerdown', cancelSettle, { passive: true });
+            track.addEventListener('touchstart', cancelSettle, { passive: true });
+
+            window.addEventListener('keydown', (e) => {
+                if (e.key === "ArrowRight" || e.key === "ArrowDown" || e.key === " ") {
+                    if (currentIndex < items.length - 1) scrollToIndex(currentIndex + 1);
+                } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+                    if (currentIndex > 0) scrollToIndex(currentIndex - 1);
+                }
+            });
+
+            window.addEventListener('resize', () => scrollToIndex(currentIndex));
+
+        }
+
+        //Color changing sections
+
+        const defaults = {
+            bgColor: document.documentElement.style.getPropertyValue('--bg-color'),
+            textColor: document.documentElement.style.getPropertyValue('--text-color')
+        }
+
+
+        const bgColorObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    document.documentElement.style.setProperty('--bg-color', entry.target.dataset.bgColor ?? defaults.bgColor);
+                    document.documentElement.style.setProperty('--text-color', entry.target.dataset.textColor ?? defaults.textColor);
+                }
+            });
+        }, {
+            rootMargin: '0px',
+            threshold: 0.501
+        });
+
+        document.querySelectorAll('[data-bg-color]').forEach(changer => {
+            changer.style.setProperty('background-color', changer.dataset.navColor); //this is just to know which is which
+            bgColorObserver.observe(changer);
+        });
+    </script>
+
+</body>
+
+</html>
